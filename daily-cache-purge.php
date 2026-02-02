@@ -140,7 +140,7 @@ class Daily_Cache_Purge {
 
     private static function purge_cache() {
         // 1. Try Batcache
-        if (isset($GLOBALS['batcache'])) {
+        if (isset($GLOBALS['batcache']) && is_object($GLOBALS['batcache']) && method_exists($GLOBALS['batcache'], 'flush')) {
             try {
                 $GLOBALS['batcache']->flush();
                 return ['success' => true, 'output' => 'Batcache flushed', 'error' => ''];
