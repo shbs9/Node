@@ -28,6 +28,11 @@ class Daily_Cache_Purge {
                                        // 12:00 UTC = 07:00 EST / 05:00 MST
 
     public static function init() {
+        // CRITICAL: Prevent infinite loop - don't run when WP-CLI is executing
+        if (defined('WP_CLI') && WP_CLI) {
+            return;
+        }
+
         // Schedule WP-Cron event
         add_action('plugins_loaded', [__CLASS__, 'schedule_purge']);
 
